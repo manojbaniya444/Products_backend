@@ -3,6 +3,9 @@ const mongoose = require("mongoose");
 const productRoutes = require("./Routes/ProductRoutes");
 require("dotenv").config();
 const userRoutes = require("./Routes/UserRoutes");
+const cookieParser = require("cookie-parser");
+const { verifyToken } = require("./services/auth");
+const { verify } = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -12,9 +15,12 @@ const PORT = process.env.PORT;
 // *Body parser middleware
 app.use(express.json());
 
+// Cookie parser middleware
+app.use(cookieParser());
+
 // *Routes middleware
-app.use("/api/v1/products", productRoutes);
-app.use("/api/users", userRoutes);
+app.use("/users", userRoutes);
+app.use("/api/v1/products", verifyToken, productRoutes);
 
 // #connect mongoose and start the server
 mongoose
