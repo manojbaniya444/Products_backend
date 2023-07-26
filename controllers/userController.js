@@ -18,10 +18,14 @@ const registerUser = (req, res) => {
       password: hash,
     })
       .then(() => {
-        res.status(200).json({ message: "User registered successfully." });
+        res
+          .status(200)
+          .json({ message: "Account created successfully.", status: 200 });
       })
       .catch((error) => {
-        res.status(400).json({ error: error });
+        res
+          .status(400)
+          .json({ error: error, status: 400, errorMessage: "Username exist" });
       });
   });
 };

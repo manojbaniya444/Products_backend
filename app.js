@@ -5,7 +5,7 @@ require("dotenv").config();
 const userRoutes = require("./Routes/UserRoutes");
 const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./services/auth");
-const { verify } = require("jsonwebtoken");
+const cors = require("cors");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -14,6 +14,9 @@ const PORT = process.env.PORT;
 
 // *Body parser middleware
 app.use(express.json());
+
+// CORS
+app.use(cors());
 
 // Cookie parser middleware
 app.use(cookieParser());
