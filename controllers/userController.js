@@ -38,7 +38,7 @@ const loginUser = async (req, res) => {
 
   if (!user) {
     return res
-      .status(400)
+      .status(403)
       .json({ error: "Username doesnt exist in our database." });
   }
 
