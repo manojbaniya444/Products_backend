@@ -16,6 +16,10 @@ const createToken = (user) => {
 
 // To verify Token and allow access
 const verifyToken = (req, res, next) => {
+  // If the request is simply get allow the access
+  if (req.method === "GET") {
+    return next();
+  }
   // getting the token from the cookies
   const accessToken = req.cookies["access-token"]; // or simply req.cookies.access-token ?
 
