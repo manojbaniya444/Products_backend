@@ -2,20 +2,20 @@ const bcrypt = require("bcrypt");
 const User = require("../models/userModels");
 const { createToken } = require("../services/auth");
 
-const getAllUsers = (req, res) => {
-  res
-    .status(200)
-    .json({ messsage: "Successfully get all users from users api." });
+const getAllUsers = async (req, res) => {
+  const allUsers = await User.find();
+  res.status(200).json(allUsers);
 };
 
 // User registration logic
 const registerUser = (req, res) => {
-  const { username, password } = req.body;
+  const { username, password, role } = req.body;
 
   bcrypt.hash(password, 10).then((hash) => {
     User.create({
       username,
       password: hash,
+      role,
     })
       .then(() => {
         res

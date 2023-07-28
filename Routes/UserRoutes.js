@@ -5,8 +5,9 @@ const {
   registerUser,
   loginUser,
 } = require("../controllers/userController");
+const { verifyToken } = require("../services/auth");
 
-router.get("/", getAllUsers);
+router.get("/", verifyToken, getAllUsers);
 router.post("/register", registerUser);
 router.post("/login", loginUser);
 

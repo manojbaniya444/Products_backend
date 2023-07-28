@@ -6,6 +6,7 @@ const userRoutes = require("./Routes/UserRoutes");
 const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./services/auth");
 const cors = require("cors");
+const { verify } = require("jsonwebtoken");
 
 const app = express();
 const PORT = process.env.PORT;
@@ -23,7 +24,14 @@ app.use(cookieParser());
 
 // *Routes middleware
 app.use("/users", userRoutes);
+
 app.use("/api/v1/products", verifyToken, productRoutes);
+
+app.post("/user/logout", (req, res) => {
+  console.log("Logging out...");
+  res.clearCookie("access-token");
+  res.status(200).json({ message: "User logged out successfully." });
+});
 
 // #connect mongoose and start the server
 mongoose
