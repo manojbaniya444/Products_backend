@@ -6,6 +6,7 @@ const createToken = (user) => {
     {
       username: user.username,
       id: user._id,
+      role: user.role,
     },
     process.env.SECRET_KEY
   );
@@ -27,6 +28,8 @@ const verifyToken = (req, res, next) => {
 
     if (validToken) {
       req.authenticated = true; // Setting the authenticated value true after successful jwt verification
+      // req.user = validToken Attach user data to the request object/
+      // now use this req.user.role === "Admin" for authorization
 
       return next();
     }
