@@ -36,7 +36,6 @@ const verifyToken = (req, res, next) => {
       req.authenticated = true; // Setting the authenticated value true after successful jwt verification
       req.user = validToken; // Attach user data to the request object
       // now use this req.user.role === "Admin" for authorization
-
       return next();
     }
   } catch (err) {

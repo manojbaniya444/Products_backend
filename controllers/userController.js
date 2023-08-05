@@ -18,6 +18,11 @@ const registerUser = (req, res) => {
       role,
     })
       .then(() => {
+        // res.cookie("access-token", accessToken, {
+        //   maxAge: 60 * 60 * 1000,
+        //   httpOnly: true,
+        //   sameSite: "None",
+        // });
         res
           .status(200)
           .json({ message: "Account created successfully.", status: 200 });
@@ -58,7 +63,9 @@ const loginUser = async (req, res) => {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
     });
-    res.status(200).json({ message: "Logged in successfully.", accessToken });
+    res
+      .status(200)
+      .json({ message: "Logged in successfully.", accessToken, username });
   }
 };
 

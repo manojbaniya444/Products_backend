@@ -3,6 +3,7 @@ const mongoose = require("mongoose");
 const productRoutes = require("./Routes/ProductRoutes");
 require("dotenv").config();
 const userRoutes = require("./Routes/UserRoutes");
+const addProductRoutes = require("./Routes/AddProductRoutes");
 const cookieParser = require("cookie-parser");
 const { verifyToken } = require("./services/auth");
 const cors = require("cors");
@@ -17,6 +18,8 @@ const PORT = process.env.PORT;
 app.use(express.json());
 
 // CORS
+// app.use(cors({ credentials: true, origin: ["http://http://127.0.0.1:5173"] }));
+
 app.use(cors());
 
 // Cookie parser middleware
@@ -26,6 +29,12 @@ app.use(cookieParser());
 app.use("/users", userRoutes);
 
 app.use("/api/v1/products", verifyToken, productRoutes);
+
+//! Here the verify route is disabled because there is no cookie set in the react
+//Todo First get the cookie in the frontend and then do the next work
+//* This will be done next time
+
+app.use("/user-products", addProductRoutes);
 
 app.post("/user/logout", (req, res) => {
   console.log("Logging out...");
