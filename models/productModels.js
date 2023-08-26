@@ -22,6 +22,8 @@ const productSchema = new Schema(
     },
     url: {
       type: String,
+      default:
+        "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrR7-sAA1GY2OMSz7p7blb843He9oGOAs6IA&usqp=CAU",
     },
   },
   {

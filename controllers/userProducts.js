@@ -1,11 +1,25 @@
 const UserProducts = require("../models/UserProductsModel");
 
+const getUserProducts = async (req, res, next) => {
+  const products = await UserProducts.find();
+  res.status(200).json(products);
+};
+
+const getSingleProduct = async (req, res) => {
+  const singleProduct = await UserProducts.findById(req.params.productId);
+  if (!singleProduct) {
+    return res.status(404).json({ err: "Product not found on our database." });
+  }
+
+  res.status(200).json(singleProduct);
+};
+
 const addNewProduct = async (req, res, next) => {
   const { name, available, limit, description, price, url } = req.body;
 
   try {
     const addedProduct = await UserProducts.create({
-      name,
+      productName: name,
       // addedBy: req?.user.username,
       // userId: req.user.id,
       addedBy: "Manoj Baniya",
@@ -17,7 +31,7 @@ const addNewProduct = async (req, res, next) => {
       },
       description,
       price,
-      url,
+      url: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSrR7-sAA1GY2OMSz7p7blb843He9oGOAs6IA&usqp=CAU",
     });
     res
       .status(200)
@@ -65,4 +79,10 @@ const deleteAll = async (req, res, next) => {
   res.status(200).json({ msg: "All data deleted." });
 };
 
-module.exports = { addNewProduct, deleteUserProduct, deleteAll };
+module.exports = {
+  getUserProducts,
+  addNewProduct,
+  deleteUserProduct,
+  deleteAll,
+  getSingleProduct,
+};
