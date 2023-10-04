@@ -46,6 +46,7 @@ const verifyToken = (req, res, next) => {
 // Authorize users.
 
 const checkAdminRole = (req, res, next) => {
+  // After the verification of the access token we have set the req.user to the dedoced from the access token id.
   if (req.user.role === "admin") {
     return next();
   }

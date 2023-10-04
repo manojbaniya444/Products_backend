@@ -27,8 +27,9 @@ app.use(cookieParser());
 
 // *Routes middleware
 app.use("/users", userRoutes);
-
-app.use("/api/v1/products", verifyToken, productRoutes);
+ 
+//* This route contains the products fromt the admin and not from the users logged in the website by login.
+// app.use("/api/v1/products", verifyToken, productRoutes);
 
 //! Here the verify route is disabled because there is no cookie set in the react
 //Todo First get the cookie in the frontend and then do the next work
@@ -38,7 +39,7 @@ app.use("/user-products", addProductRoutes);
 
 app.post("/user/logout", (req, res) => {
   console.log("Logging out...");
-  res.clearCookie("access-token");
+  res.clearCookie("access-token"); // Clear the cookie of authentication before logging out.
   res.status(200).json({ message: "User logged out successfully." });
 });
 

@@ -9,9 +9,13 @@ const getAllUsers = async (req, res) => {
 
 // User registration logic
 const registerUser = (req, res) => {
+  // 1) Get the username password and role from the user through the body.
   const { username, password, role } = req.body;
-
+   
+  // 2) Then hash the password first using bcrpt library
   bcrypt.hash(password, 10).then((hash) => {
+
+  // 3) Create the new user in the mongo db using mongoose schema with the username, role and the hashed pw.
     User.create({
       username,
       password: hash,
@@ -38,7 +42,7 @@ const registerUser = (req, res) => {
 // User login logic
 const loginUser = async (req, res) => {
   const { username, password } = req.body;
-
+   // First check if the username is in the database or not.
   const user = await User.findOne({ username: username });
 
   if (!user) {
@@ -48,7 +52,7 @@ const loginUser = async (req, res) => {
   }
 
   const hashedDbPassword = user.password;
-
+ // Compare the password with the encoded password using bcrypt library.
   const isValidPassword = await bcrypt.compare(password, hashedDbPassword);
 
   if (!isValidPassword) {
@@ -56,9 +60,10 @@ const loginUser = async (req, res) => {
     return res.status(401).json({ err: "Incorrect password." });
   } else {
     console.log("logged in.");
-
+     // Create the token after successful logged in the system.
     const accessToken = createToken(user);
 
+    // Set the cookie.
     res.cookie("access-token", accessToken, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
